@@ -1,0 +1,15 @@
+.slideshow img {
+  position: absolute;
+  object-fit: scale-down;
+  opacity: 0;
+  z-index: -1;
+  transition: all 1s ease-in-out;
+  transform: scale(1.1) translateX(-1rem) rotate(-5deg);
+}
+
+.slideshow .active {
+  opacity: 1;
+  z-index: 0;
+  transform: scale(1) translateX(0) rotate(0);
+  filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.5));
+}
