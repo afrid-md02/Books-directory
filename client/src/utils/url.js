@@ -1,3 +1,3 @@
-const serverUrl = "https://books-directory-backend.onrender.com";
+const serverUrl = import.meta.env.VITE_REACT_API_SERVERURL;
 
 export default serverUrl;
