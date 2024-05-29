@@ -109,6 +109,8 @@ exports.deleteBook = async (req, res, next) => {
 
     const { publicId, extension } = extractPublicId(bookImageUrl);
 
+    console.log(publicId, extension);
+
     let resourceType;
     if (["jpg", "jpeg", "png"].includes(extension)) {
       resourceType = "image";
