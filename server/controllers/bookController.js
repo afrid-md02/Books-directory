@@ -109,8 +109,6 @@ exports.deleteBook = async (req, res, next) => {
 
     const { publicId, extension } = extractPublicId(bookImageUrl);
 
-    console.log(publicId, extension);
-
     let resourceType;
     if (["jpg", "jpeg", "png"].includes(extension)) {
       resourceType = "image";
@@ -118,10 +116,13 @@ exports.deleteBook = async (req, res, next) => {
       resourceType = "raw";
     }
 
-    const result = await cloudinary.api.delete_resources([publicId], {
-      type: "upload",
-      resource_type: resourceType,
-    });
+    const result = await cloudinary.api.delete_resources(
+      [publicId.replace("%", " ")],
+      {
+        type: "upload",
+        resource_type: resourceType,
+      }
+    );
 
     if (Object.values(result.deleted).includes("not_found")) {
       throw new Error(
@@ -137,6 +138,7 @@ exports.deleteBook = async (req, res, next) => {
     await user.save();
     res.status(201).json({ message: "Book deleted", book });
   } catch (err) {
+    console.log(err);
     res.status(401).json({ error: err.message });
   }
 };
