@@ -116,7 +116,7 @@ exports.deleteBook = async (req, res, next) => {
       resourceType = "raw";
     }
 
-    const result = await cloudinary.v2.api.delete_resources([publicId], {
+    const result = await cloudinary.api.delete_resources([publicId], {
       type: "upload",
       resource_type: resourceType,
     });
