@@ -13,15 +13,14 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
   cloudinary,
   allowedFormats: ["jpg", "png", "jpeg"],
-  params: {
-    folder: process.env.CLOUDINARY_FOLDER,
-    transformation: [
-      {
-        width: 1000,
-        height: 1000,
-        crop: "scale",
-      },
-    ],
+  params: async (req, file) => {
+    return {
+      folder: process.env.CLOUDINARY_FOLDER,
+      allowedFormats: ["jpg", "png", "jpeg", "svg"],
+      resource_type: "auto",
+      maxFileSize: 10000000,
+      public_id: file.originalname,
+    };
   },
 });
 

@@ -5,10 +5,15 @@ const { body } = require("express-validator");
 const router = express.Router();
 const isAuth = require("../middlewares/auth");
 const storage = require("../config/cloudinary");
+const multerConfig = require("../config/multerConfig");
 
 const bookController = require("../controllers/bookController");
 
-const upload = multer({ storage });
+const upload = multer({
+  storage: storage,
+  fileFilter: multerConfig,
+  limits: { fileSize: 10 * 1024 * 1024 },
+});
 
 //fetch all books or category
 router.get("/books/:category", bookController.getAllBooks);

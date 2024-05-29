@@ -1,6 +1,9 @@
+const cloudinary = require("cloudinary").v2;
+const { validationResult } = require("express-validator");
+
 const Book = require("../models/book");
 const User = require("../models/user");
-const { validationResult } = require("express-validator");
+const extractPublicId = require("../utils/extractPublicId");
 
 exports.getAllBooks = async (req, res, next) => {
   try {
@@ -99,9 +102,33 @@ exports.updateBook = async (req, res, next) => {
 
 exports.deleteBook = async (req, res, next) => {
   try {
-    const bookId = req.params.bookId;
+    const { bookId } = req.params;
 
-    const book = await Book.findByIdAndDelete(bookId);
+    const book = await Book.findById(bookId);
+    const bookImageUrl = book.imageUrl;
+
+    const { publicId, extension } = extractPublicId(bookImageUrl);
+
+    let resourceType;
+    if (["jpg", "jpeg", "png"].includes(extension)) {
+      resourceType = "image";
+    } else if (extension === "svg") {
+      resourceType = "raw";
+    }
+
+    const result = await cloudinary.v2.api.delete_resources([publicId], {
+      type: "upload",
+      resource_type: resourceType,
+    });
+
+    if (Object.values(result.deleted).includes("not_found")) {
+      throw new Error(
+        "Failed to delete book image in cloudinary, try again later"
+      );
+    }
+
+    await Book.findByIdAndDelete(bookId);
+
     const user = await User.findById(req.userId);
     const books = user.books.filter((id) => id.toString() !== bookId);
     user.books = books;
