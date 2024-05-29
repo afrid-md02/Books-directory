@@ -1,5 +1,6 @@
 const express = require("express");
 const dotenv = require("dotenv");
+const cors = require("cors");
 
 //file imports
 const bookRoutes = require("./routes/bookRoutes");
@@ -15,12 +16,13 @@ const PORT = process.env.PORT || 8080;
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", `${process.env.CLIENT_URL}`);
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-  res.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
-  next();
-});
+app.use(
+  cors({
+    origin: `${process.env.CLIENT_URL}`,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    exposedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
 app.use(userRoutes);
 app.use(bookRoutes);
