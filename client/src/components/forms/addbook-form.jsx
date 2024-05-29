@@ -92,7 +92,7 @@ function BookForm() {
         <select
           name="category"
           id="category"
-          className="border-2 px-1 py-2 placeholder:text-sm border-slate-600 outline-none"
+          className="px-1 py-2 border-2 outline-none placeholder:text-sm border-slate-600"
           defaultValue=""
           required
         >
@@ -112,24 +112,24 @@ function BookForm() {
       <div className="flex flex-col space-y-1">
         <label htmlFor="image">Choose image</label>
         <input
-          className="bg-white border-2 px-1 py-2 placeholder:text-sm border-slate-600 outline-none"
-          type="file"
+          className="px-1 py-2 bg-white border-2 outline-none placeholder:text-sm border-slate-600"
+          type="image/*"
           name="image"
           id="image"
           onChange={imageChange}
           required
         />
-        <strong>Note: Allowed formats are png, jpg, jpeg.</strong>
+        <strong>Note: Allowed formats are png, jpg, jpeg and svg.</strong>
         {selectedImage && (
-          <div className="flex flex-col justify-between items-center px-2 space-y-1">
+          <div className="flex flex-col items-center justify-between px-2 space-y-1">
             <img
               src={URL.createObjectURL(selectedImage)}
               alt="Thumb"
-              className="h-32 w-auto md:h-40 object-contain"
+              className="object-contain w-auto h-32 md:h-40"
             />
             <button
               onClick={removeSelectedImage}
-              className="bg-custom_pink p-2 rounded text-bone_white text-xs md:text-sm"
+              className="p-2 text-xs rounded bg-custom_pink text-bone_white md:text-sm"
             >
               Hide image preview
             </button>
@@ -142,7 +142,7 @@ function BookForm() {
           name="description"
           id="description"
           placeholder="description about this book"
-          className="min-h-32 border-2 px-1 py-2 placeholder:text-sm border-slate-600 focus-within:bg-slate-300 outline-none"
+          className="px-1 py-2 border-2 outline-none min-h-32 placeholder:text-sm border-slate-600 focus-within:bg-slate-300"
           required
         ></textarea>
       </div>
