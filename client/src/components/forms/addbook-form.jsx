@@ -113,7 +113,8 @@ function BookForm() {
         <label htmlFor="image">Choose image</label>
         <input
           className="px-1 py-2 bg-white border-2 outline-none placeholder:text-sm border-slate-600"
-          type="image/*"
+          type="file"
+          accept="image/*"
           name="image"
           id="image"
           onChange={imageChange}
